@@ -3,7 +3,6 @@ import CodeExplanation from "../components/CodeExplanation";
 import SimpleExportControls from "../components/SimpleExportControls";
 import "../styles/pages.css";
 import "../styles/Sorting.css";
-import { useMediaQuery } from "react-responsive";
 
 // Pseudocode map used for step-mode highlighting/explanations
 const ALGORITHM_PSEUDOCODE = {
@@ -136,7 +135,6 @@ const ALGORITHM_PSEUDOCODE = {
       explain: "Combine all sorted buckets to get final result.",
     },
   ],
-
   heapSort: [
     {
       code: "buildMaxHeap(arr)",
@@ -825,7 +823,8 @@ const Sorting = () => {
   };
 
   // UI helpers
-  const isTabletOrBelow = useMediaQuery({ query: "(max-width: 1024px)" });
+  const isTabletOrBelow =
+    typeof window !== "undefined" && window.innerWidth < 1024;
   const computeGap = () => {
     if (arraySize > 40) return isTabletOrBelow ? "1px" : "2px";
     if (arraySize > 25) return "3px";
@@ -916,7 +915,6 @@ const Sorting = () => {
           gridTemplateColumns: isTabletOrBelow ? "1fr" : "1fr 1fr",
           gap: "24px",
           marginBottom: "12px",
-          width: "100%",
         }}
       >
         <div
@@ -925,24 +923,18 @@ const Sorting = () => {
             borderRadius: "15px",
             border: "1px solid rgba(102,204,255,0.2)",
             padding: "20px",
-            width: "100%",
-=======
           }}
         >
           <h3 style={{ color: "#66ccff", marginBottom: "12px" }}>
             Visualization Controls
           </h3>
-
-          {/* Array Size Control */}
           <div
             style={{
               display: "flex",
-              flexDirection: isTabletOrBelow ? "column" : "row",
-              alignItems: isTabletOrBelow ? "flex-start" : "center",
+              alignItems: "center",
               gap: "10px",
               justifyContent: "space-between",
               marginBottom: "14px",
-              width: "100%",
             }}
           >
             <label
@@ -961,17 +953,14 @@ const Sorting = () => {
               onChange={(e) => setArraySize(parseInt(e.target.value))}
               disabled={isSorting}
               className="input"
-              style={{ flex: 1, maxWidth: "100%" }}
-
+              style={{ width: "200px" }}
             />
             <div
               style={{
                 color: "#66ccff",
                 fontWeight: 600,
-                minWidth: isTabletOrBelow ? "auto" : "140px",
-                textAlign: isTabletOrBelow ? "left" : "right",
-                width: "100%",
-
+                minWidth: "140px",
+                textAlign: "right",
               }}
             >
               {arraySize}{" "}
@@ -980,16 +969,12 @@ const Sorting = () => {
               </span>
             </div>
           </div>
-
-          {/* Speed Control */}
           <div
             style={{
               display: "flex",
-              flexDirection: isTabletOrBelow ? "column" : "row",
-              alignItems: isTabletOrBelow ? "flex-start" : "center",
+              alignItems: "center",
               gap: "10px",
               justifyContent: "space-between",
-              width: "100%",
             }}
           >
             <label
@@ -1008,23 +993,20 @@ const Sorting = () => {
               onChange={(e) => setDelay(parseInt(e.target.value))}
               disabled={isSorting}
               className="input"
-              style={{ flex: 1, maxWidth: "100%" }}
+              style={{ width: "200px" }}
             />
             <div
               style={{
                 color: "#66ccff",
                 fontWeight: 600,
-                minWidth: isTabletOrBelow ? "auto" : "140px",
-                textAlign: isTabletOrBelow ? "left" : "right",
-                width: "100%",
+                minWidth: "140px",
+                textAlign: "right",
               }}
             >
               {delay}ms
             </div>
           </div>
         </div>
-
-
         <SimpleExportControls containerId="sort-visualization-container" />
       </div>
 

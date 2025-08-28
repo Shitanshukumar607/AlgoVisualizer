@@ -16,7 +16,6 @@ import {
 import CodeExplanation from "../components/CodeExplanation";
 import SimpleExportControls from "../components/SimpleExportControls";
 import { useTheme } from "../ThemeContext";
-import { useMediaQuery } from "react-responsive";
 import {
   BinarySearchTree,
   getBstSteps,
@@ -223,12 +222,6 @@ function DataStructures() {
     setMessage("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedStructure]);
-  const isTabletOrBelow = useMediaQuery({ query: "(max-width: 1024px)" });
-
-  const comingSoon =
-    selectedStructure === "avl" ||
-    selectedStructure === "redblack" ||
-    selectedStructure === "graph";
 
   const handleReset = () => {
     // 1. Clear the actual data structure instance based on the selection
@@ -423,16 +416,6 @@ function DataStructures() {
             >
               Execute
             </button>
-            <button
-              className="btn btn-secondary"
-              onClick={() => {
-                setSteps([]);
-                setCurrentStep(0);
-                setMessage("");
-                setInputValue("");
-                setIndexValue("");
-              }}
-            >
             <button className="btn btn-secondary" onClick={handleReset}>
               Reset
             </button>
@@ -445,7 +428,7 @@ function DataStructures() {
         className="controls-section"
         style={{
           display: "grid",
-          gridTemplateColumns: isTabletOrBelow ? "1fr" : "1fr 1fr", // stack on tablet/mobile
+          gridTemplateColumns: "1fr 1fr",
           gap: "24px",
           marginBottom: "12px",
         }}
@@ -466,20 +449,13 @@ function DataStructures() {
               display: "flex",
               alignItems: "center",
               gap: "10px",
-              justifyContent: isTabletOrBelow
-                ? "space-between"
-                : "space-between",
-              flexDirection: isTabletOrBelow ? "column" : "row", // stack controls vertically on mobile
-              alignItems: isTabletOrBelow ? "flex-start" : "center",
+              justifyContent: "space-between",
             }}
           >
             <label
               className="label"
               htmlFor="sizeRange"
-              style={{
-                minWidth: isTabletOrBelow ? "100%" : "110px",
-                marginBottom: isTabletOrBelow ? "8px" : "0",
-              }}
+              style={{ minWidth: "110px" }}
             >
               Node Size:
             </label>
@@ -491,15 +467,14 @@ function DataStructures() {
               value={vizSize}
               onChange={(e) => setVizSize(parseInt(e.target.value, 10))}
               className="input"
-              style={{ width: isTabletOrBelow ? "100%" : "200px" }}
+              style={{ width: "200px" }}
             />
             <div
               style={{
                 color: "#66ccff",
                 fontWeight: 600,
-                minWidth: isTabletOrBelow ? "100%" : "140px",
-                textAlign: isTabletOrBelow ? "left" : "right",
-                marginTop: isTabletOrBelow ? "8px" : "0",
+                minWidth: "140px",
+                textAlign: "right",
               }}
             >
               {vizSize}px
@@ -522,6 +497,7 @@ function DataStructures() {
           {message}
         </div>
       )}
+
       {/* Step navigation */}
       {!comingSoon && steps.length > 0 && (
         <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
@@ -640,13 +616,7 @@ function DataStructures() {
           </div>
         </div>
         {!comingSoon && (
-          <div
-            style={{
-              flex: isTabletOrBelow ? "1 1 100%" : "0 0 420px", // full width on tablet/mobile
-              minWidth: isTabletOrBelow ? "100%" : "280px",
-              marginTop: isTabletOrBelow ? "16px" : "0", // add spacing on smaller screens
-            }}
-          >
+          <div style={{ flex: "0 0 420px", minWidth: "280px" }}>
             <PseudocodePanel
               setKey={selectedStructure}
               state={steps[currentStep]}
@@ -1323,7 +1293,6 @@ function runLinkedList(
   setSteps(s);
   setCurrentStep(selectInitialStep(op, s));
   setMessage(`${title} - ${op} executed.`);
-
 }
 
 function runStack(
@@ -1352,7 +1321,6 @@ function runQueue(
   setMessage(`${title} - ${op} executed.`);
 }
 
-
 function runTree(
   { treeRef, setSteps, setCurrentStep, setMessage, title },
   op,
@@ -1365,7 +1333,6 @@ function runTree(
   setCurrentStep(selectInitialStep(op, s));
   setMessage(`${title} - ${op} executed.`);
 }
-
 
 function runBst(
   { bstRef, setSteps, setCurrentStep, setMessage, title },
